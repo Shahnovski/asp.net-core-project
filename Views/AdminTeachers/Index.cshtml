@@ -1,0 +1,56 @@
+﻿@model IEnumerable<University.Models.Teacher>
+
+@{
+    ViewBag.Title = "Админ панель: список преподавателей";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Список преподавателей</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-condensed table-bordered">
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Фамилия</th>
+                    <th class="text-center">Имя</th>
+                    <th class="text-center">Отчество</th>
+                    <th class="text-center">Учёная степень</th>
+                    <th class="text-center">Учёное звание</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">@item.Id</td>
+                        <td class="text-center">@Html.ActionLink(item.LastName, "Edit", new { item.Id })</td>
+                        <td class="text-center">@item.FirstName</td>
+                        <td class="text-center">@item.MiddleName</td>
+                        <td class="text-center">@item.ScienceDegree</td>
+                        <td class="text-center">@item.AcadimicTitle</td>
+                        <td class="text-center">
+                            @using (Html.BeginForm("Delete", "AdminTeachers"))
+                            {
+                                @Html.Hidden("TeacherId", item.Id)
+                                <input type="submit"
+                                       class="btn btn-default btn-xs"
+                                       value="Удалить" />
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="panel-footer">
+            @Html.ActionLink("Добавить преподавателя", "Create", null,
+                new { @class = "btn btn-default" })
+        </div>
+        <div>
+            <br>@Html.RouteLink("К списку кафедр", new { controller = "AdminDepartments", action = "Index" })
+            <br>@Html.RouteLink("К штатному расписанию", new { controller = "AdminStaffingStructures", action = "Index" })
+            <br>@Html.RouteLink("К списку специальностей", new { controller = "AdminSpecialties", action = "Index" })
+            <br>@Html.RouteLink("К списку групп", new { controller = "AdminGroups", action = "Index" })
+            <br>@Html.RouteLink("На главную", new { controller = "Home", action = "Index" })
+        </div>
+    </div>
+

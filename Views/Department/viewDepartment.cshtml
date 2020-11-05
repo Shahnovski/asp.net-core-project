@@ -1,0 +1,58 @@
+﻿@model University.Models.Department
+
+@{
+    ViewBag.Title = "viewDepartment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<body>
+    <div class="well">
+        <h3>
+            <strong>@Model.Title</strong>
+        </h3>
+        <P><span class="lead">Заведующий кафедрой: @Model.HeadOfDepartment.LastName @Model.HeadOfDepartment.FirstName @Model.HeadOfDepartment.MiddleName</span></P>
+        <P><span class="lead">Номер кабинета: @Model.NumberOfCabinet</span></P>
+        <P><span class="lead">Телефон: @Model.PhoneNumber</span></P>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Преподаватели кафедры</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-condensed table-bordered">
+                <tr>
+                    <th class="text-center">ФИО</th>
+                    <th class="text-center">Учёная степень</th>
+                    <th class="text-center">Учёное звание</th>
+                    <th class="text-center">Должность</th>
+                    <th class="text-center">Ставка</th>
+                </tr>
+                @foreach (var item in Model.StaffingStructures)
+                {
+                    <tr>
+                        <td class="text-center">@item.Teacher.LastName @item.Teacher.FirstName[0]. @item.Teacher.MiddleName[0].</td>
+                        <td class="text-center">@item.Teacher.ScienceDegree</td>
+                        <td class="text-center">@item.Teacher.AcadimicTitle</td>
+                        <td class="text-center">@item.Post</td>
+                        <td class="text-center">@item.Rate</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <div class="well">
+        <h3>
+            Специальности кафедры
+        </h3>
+        @foreach (var item in Model.Specialties)
+        {
+            <P><h4><strong>@Html.RouteLink((string)item.Title, new { controller = "Specialty", action = "viewSpecialty", specialtyId = item.Id })</strong></h4></P>
+        }
+    </div>
+    <div>
+         @Html.RouteLink("На главную", new { controller = "Home", action = "Index" })
+    </div>
+</body>
+</html>
+

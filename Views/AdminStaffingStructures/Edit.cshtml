@@ -1,0 +1,46 @@
+﻿@model University.Models.StaffingStructure
+
+@{
+    ViewBag.Title = "Админ панель: редактирование штатного расписания";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование штатного расписания</h3>
+    </div>
+
+    @using (Html.BeginForm("Edit", "AdminStaffingStructures"))
+    {
+        <div class="panel-body">
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "Department" && property.PropertyName != "Teacher")
+                {
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                        @if (property.PropertyName == "TeacherId")
+                        {
+                            <br>@Html.DropDownListFor(model => model.TeacherId, ViewBag.Teachers as SelectList)
+                        }
+                        else if (property.PropertyName == "DepartmentId")
+                        {
+                            <br>@Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList)
+                        }
+                        else {
+                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessage(property.PropertyName)
+                    </div>
+                }
+            }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "Index", null, new
+            {
+                @class = "btn btn-default"
+            })
+        </div>
+    }
+</div>

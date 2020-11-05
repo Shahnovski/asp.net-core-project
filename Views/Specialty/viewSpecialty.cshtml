@@ -1,0 +1,39 @@
+﻿@model University.Models.Specialty
+@{
+    ViewBag.Title = "viewSpecialty";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<body>
+    <div class="well">
+        <h3>
+            <strong>@Model.Title</strong>
+        </h3>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Группы, обучающиеся на специальнсоти</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped table-condensed table-bordered">
+                <tr>
+                    <th class="text-center">Номер группы</th>
+                    <th class="text-center">Форма обучения</th>
+                </tr>
+                @foreach (var item in Model.Groups)
+                {
+                    <tr>
+                        <td class="text-center">@item.Number</td>
+                        <td class="text-center">@item.FormOfLearning</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <div>
+        @Html.RouteLink("На главную", new { controller = "Home", action = "Index" })
+    </div>
+</body>
+</html>
+

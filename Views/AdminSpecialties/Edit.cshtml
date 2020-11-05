@@ -1,0 +1,44 @@
+﻿@model University.Models.Specialty
+
+@{
+    //ViewBag.Title = "Админ панель: редактирование кафедры";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование специальности «@Model.Title»</h3>
+    </div>
+
+    @using (Html.BeginForm("Edit", "AdminSpecialties"))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(p => p.Id)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "Id" && property.PropertyName != "Department" && property.PropertyName != "Groups")
+                {
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                        @if (property.PropertyName == "DepartmentId")
+                        {
+                            <br>@Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departemnts as SelectList)
+                        }
+                        else
+                        {
+                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessage(property.PropertyName)
+                    </div>
+                }
+            }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "Index", null, new
+            {
+                @class = "btn btn-default"
+            })
+        </div>
+    }
+</div>
